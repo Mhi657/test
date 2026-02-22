@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Russian Keyboard Practice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Russian Keyboard Practice</h1>
+            <div class="options">
+                <button id="lang-ru">RU</button>
+                <button id="lang-en">EN</button>
+            </div>
+        </header>
+        <main>
+            <aside>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active" data-mode="chars">Character Practice</a></li>
+                        <li><a href="#" data-mode="words">Word Practice</a></li>
+                        <li><a href="#" data-mode="short-sentences">Short Sentence Practice</a></li>
+                        <li><a href="#" data-mode="long-sentences">Long Sentence Practice</a></li>
+                    </ul>
+                </nav>
+                <div class="stats">
+                    <h3>Statistics</h3>
+                    <p>Time: <span id="time">00:00</span></p>
+                    <p>Accuracy: <span id="accuracy">0.00</span>%</p>
+                </div>
+            </aside>
+            <section id="practice-area">
+                <details id="long-translation-container" class="long-translation">
+                    <summary>Show Translation</summary>
+                    <p id="long-translation-content"></p>
+                </details>
+                <div id="text-display-container">
+                    <div id="text-display"></div>
+                    <div id="translation-display"></div>
+                </div>
+                <input type="text" id="text-input" autofocus>
+                <div id="keyboard-container">
+                    <div id="hand-container"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
