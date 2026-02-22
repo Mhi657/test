@@ -21,26 +21,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const russian = {
         chars: ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.'],
         words: {
-            'приве́т': 'hello',
-            'мир': 'world',
-            'любо́вь': 'love',
-            'ко́шка': 'cat',
-            'соба́ка': 'dog',
-            'до́м': 'house',
-            'шко́ла': 'school',
-            'учи́тель': 'teacher',
-            'кни́га': 'book',
-            'со́лнце': 'sun'
+            'здра́вствуйте': '안녕하세요',
+            'спаси́бо': '감사합니다',
+            'пожа́луйста': '천만에요 / 부디',
+            'до свида́ния': '안녕히 가세요',
+            'студе́нт': '학생',
+            'шко́ла': '학교',
+            'учи́тель': '선생님',
+            'кни́га': '책',
+            'чита́ть': '읽다',
+            'писа́ть': '쓰다',
+            'говори́ть': '말하다',
+            'краси́вый': '아름다운',
+            'интере́сный': '흥미로운',
+            'хорошо́': '좋아요',
+            'сего́дня': '오늘',
+            'за́втра': '내일',
+            'Росси́я': '러시아',
+            'Москва́': '모스크바'
         },
         shortSentences: {
-            'Ма́ма мы́ла ра́му.': 'Mom washed the frame.',
-            'Ко́т спи́т на дива́не.': 'The cat is sleeping on the sofa.',
-            'Я люблю́ чита́ть кни́ги.': 'I love to read books.',
-            'Сего́дня хоро́шая пого́да.': 'The weather is good today.',
-            'Ско́ро бу́дет ле́то.': 'Summer will be soon.'
+            'Я студе́нт.': '저는 학생입니다.',
+            'Она́ чита́ет кни́гу.': '그녀는 책을 읽고 있습니다.',
+            'Он хорошо́ говори́т по-ру́сски.': '그는 러시아어를 잘합니다.',
+            'Как дела́?': '어떻게 지내세요?',
+            'Что э́то?': '이것은 무엇입니까?',
+            'Где вы живёте?': '어디에 사시나요?',
+            'Ско́лько э́то сто́ит?': '이것은 얼마입니까?',
+            'Я не понима́ю.': '저는 이해하지 못합니다.',
+            'О́чень прия́тно.': '만나서 반갑습니다.',
+            'Вы говори́те по-англи́йски?': '영어를 할 줄 아시나요?'
         },
         longSentences: {
-            'Ру́сский язы́к — оди́н из восточнославя́нских языко́в, оди́н из крупне́йших языко́в ми́ра, в том числе́ са́мый распространённый из славя́нских языко́в и са́мый распространённый язы́к в Евро́пе, как географи́чески, так и по числу́ носи́телей языка́ как родно́го.': 'Russian is one of the East Slavic languages, one of the largest languages in the world, including the most common of the Slavic languages and the most common language in Europe, both geographically and by the number of native speakers.'
+            'Ру́сский язы́к — оди́н из восточнославя́нских языко́в, оди́н из крупне́йших языко́в ми́ра, в том числе́ са́мый распространённый из славя́нских языко́в и са́мый распространённый язы́к в Евро́пе, как географи́чески, так и по числу́ носи́телей языка́ как родно́го.': '러시아어는 동슬라브어파에 속하는 언어 중 하나이며, 세계의 주요 언어 중 하나이다. 슬라브어파 중에서 가장 널리 사용되며, 지리적으로나 원어민 수로나 유럽에서 가장 널리 퍼져 있는 언어이다.'
         }
     };
 
@@ -62,88 +75,88 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const homeKeys = {
-        'left-pinky': 'ф',
-        'left-ring': 'ы',
-        'left-middle': 'в',
-        'left-pointer': 'а',
-        'right-pointer': 'о',
-        'right-middle': 'л',
-        'right-ring': 'д',
-        'right-pinky': 'ж'
+        'left-pinky': 'ф', 'left-ring': 'ы', 'left-middle': 'в', 'left-pointer': 'а',
+        'right-pointer': 'о', 'right-middle': 'л', 'right-ring': 'д', 'right-pinky': 'ж'
     };
+
+    function toCamelCase(str) {
+        return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+    }
 
     function createHands() {
         handContainer.innerHTML = '';
-        const handWrapper = document.createElement('div');
-        handWrapper.className = 'hand-wrapper';
         Object.keys(homeKeys).forEach(fingerId => {
             const fingerEl = document.createElement('div');
-            const handClass = fingerId.startsWith('left') ? 'left-hand' : 'right-hand';
-            fingerEl.className = `finger ${handClass} ${fingerId.split('-')[1]}`;
-            fingerEl.id = fingerId;
-            handWrapper.appendChild(fingerEl);
+            fingerEl.id = fingerId; 
+            fingerEl.className = 'finger';
+            handContainer.appendChild(fingerEl);
         });
-        handContainer.appendChild(handWrapper);
     }
 
     function createKeyboard() {
-        const existingKeyboard = keyboardContainer.querySelector('#keyboard');
-        if (existingKeyboard) existingKeyboard.remove();
-        
-        const keyboardEl = document.createElement('div');
-        keyboardEl.id = 'keyboard';
+        const keyboardNode = keyboardContainer.querySelector('#keyboard');
+        if (keyboardNode) keyboardNode.remove();
+
+        const keyboardDiv = document.createElement('div');
+        keyboardDiv.id = 'keyboard';
         keyboardLayout.forEach(row => {
             const rowEl = document.createElement('div');
             rowEl.classList.add('keyboard-row');
             row.forEach(key => {
                 const keyEl = document.createElement('div');
                 keyEl.classList.add('key');
-                if (key === ' ') keyEl.classList.add('space');
-                keyEl.dataset.key = key;
+                if (key === ' ') {
+                    keyEl.classList.add('space');
+                    keyEl.dataset.key = 'space'; // Use 'space' as a robust identifier
+                } else {
+                    keyEl.dataset.key = key;
+                }
                 keyEl.textContent = key;
                 rowEl.appendChild(keyEl);
             });
-            keyboardEl.appendChild(rowEl);
+            keyboardDiv.appendChild(rowEl);
         });
-        keyboardContainer.appendChild(keyboardEl);
+        keyboardContainer.appendChild(keyboardDiv);
     }
 
-    function setFingerPosition(fingerId, keyChar, isPressing) {
+    function positionFinger(fingerId, keyChar, isPressing) {
+        const keyEl = keyChar ? document.querySelector(`.key[data-key="${keyChar}"]`) : null;
         const fingerEl = document.getElementById(fingerId);
-        const keyEl = document.querySelector(`.key[data-key="${keyChar}"]`);
         if (!fingerEl || !keyEl) return;
 
         const keyRect = keyEl.getBoundingClientRect();
         const containerRect = handContainer.getBoundingClientRect();
 
         const x = keyRect.left - containerRect.left + (keyRect.width / 2) - (fingerEl.offsetWidth / 2);
-        // If pressing, move down. If hovering, stay up.
-        const y = isPressing ? keyRect.top - containerRect.top + 5 : keyRect.top - containerRect.top - 35;
+        const y = isPressing 
+            ? keyRect.top - containerRect.top + (keyRect.height / 2) - (fingerEl.offsetHeight / 2)
+            : keyRect.top - containerRect.top - 30;
 
         fingerEl.style.transform = `translate(${x}px, ${y}px)`;
-        fingerEl.style.backgroundColor = isPressing ? 'rgba(25, 102, 198, 0.9)' : 'rgba(74, 144, 226, 0.7)';
+        fingerEl.style.backgroundColor = isPressing ? '#2a65c7' : 'rgba(74, 144, 226, 0.7)';
     }
 
     function resetFingersToHome() {
         Object.entries(homeKeys).forEach(([fingerId, keyChar]) => {
-            setFingerPosition(fingerId, keyChar, false); // false = hover
+            positionFinger(fingerId, keyChar, false); // false = hover
         });
     }
 
     function highlightKey(key) {
         const keyLower = key.toLowerCase();
-        const keyEl = document.querySelector(`.key[data-key="${keyLower}"]`);
-        if (!keyEl) return;
+        const keySelector = (keyLower === ' ') ? 'space' : keyLower;
+        const keyEl = document.querySelector(`.key[data-key="${keySelector}"]`);
 
+        if (!keyEl) return; 
+
+        document.querySelectorAll('.key.highlight').forEach(k => k.classList.remove('highlight'));
         keyEl.classList.add('highlight');
-        
-        // Reset all fingers to their base hovering position first.
+
         resetFingersToHome();
 
-        // Then, move the designated finger to "press" the target key.
         const fingerId = fingerMap[keyLower];
         if (fingerId && fingerId !== 'thumb') {
-            setFingerPosition(fingerId, keyLower, true); // true = press
+            positionFinger(fingerId, keyLower, true); 
         }
     }
 
@@ -190,36 +203,47 @@ document.addEventListener('DOMContentLoaded', () => {
         longTranslationContainer.style.display = 'none';
         longTranslationContainer.open = false;
 
+        const camelCaseMode = toCamelCase(currentMode);
+        const modeData = russian[camelCaseMode];
+
         if (currentMode === 'chars') {
-            const randomIndex = Math.floor(Math.random() * russian.chars.length);
-            rawText = russian.chars[randomIndex];
-        } else if (currentMode === 'words') {
-            const keys = Object.keys(russian.words);
+            const randomIndex = Math.floor(Math.random() * modeData.length);
+            rawText = modeData[randomIndex];
+        } else if (modeData) {
+            const keys = Object.keys(modeData);
             const randomIndex = Math.floor(Math.random() * keys.length);
             rawText = keys[randomIndex];
-            translation = russian.words[rawText];
-            translationDisplay.textContent = translation;
-            translationDisplay.style.display = 'block';
-        } else if (currentMode === 'short-sentences') {
-            const keys = Object.keys(russian.shortSentences);
-            const randomIndex = Math.floor(Math.random() * keys.length);
-            rawText = keys[randomIndex];
-            translation = russian.shortSentences[rawText];
-            translationDisplay.textContent = translation;
-            translationDisplay.style.display = 'block';
-        } else if (currentMode === 'long-sentences') {
-            const keys = Object.keys(russian.longSentences);
-            const randomIndex = Math.floor(Math.random() * keys.length);
-            rawText = keys[randomIndex];
-            translation = russian.longSentences[rawText];
-            longTranslationContent.textContent = translation;
-            longTranslationContainer.style.display = 'block';
+            translation = modeData[rawText];
+
+            if (currentMode === 'long-sentences') {
+                longTranslationContent.textContent = translation;
+                longTranslationContainer.style.display = 'block';
+            } else {
+                translationDisplay.textContent = translation;
+                translationDisplay.style.display = 'block';
+            }
         }
 
         practiceText = rawText;
         practiceTextForComparison = rawText.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-        textDisplay.innerHTML = practiceText.split('').map(char => `<span>${char}</span>`).join('');
+        let initialHtml = '';
+        let i = 0;
+        while (i < practiceText.length) {
+            let graphemeEnd = i + 1;
+            while (graphemeEnd < practiceText.length && /[\u0300-\u036f]/.test(practiceText[graphemeEnd])) {
+                graphemeEnd++;
+            }
+            const grapheme = practiceText.substring(i, graphemeEnd);
+            
+            if (grapheme === ' ') {
+                initialHtml += '<span class="space-char">&nbsp;</span>';
+            } else {
+                initialHtml += `<span>${grapheme}</span>`;
+            }
+            i = graphemeEnd;
+        }
+        textDisplay.innerHTML = initialHtml;
 
         unhighlightAllKeys();
         if (practiceTextForComparison.length > 0) {
@@ -232,8 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
         resetStats();
         createKeyboard();
         createHands();
-        keyboardContainer.style.display = 'flex';
-        // A short delay ensures the UI is ready before positioning.
         setTimeout(() => {
             nextItem();
         }, 150);
@@ -245,34 +267,54 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let html = '';
         let fullyCorrect = true;
-        for (let i = 0; i < practiceTextForComparison.length; i++) {
-            const originalChar = practiceText[i] || '';
-            const comparisonChar = practiceTextForComparison[i];
 
-            if (i < typedText.length) {
-                if (typedText[i] === comparisonChar) {
-                    html += `<span class="correct">${originalChar}</span>`;
+        let textIndex = 0;
+        let comparisonIndex = 0;
+        while (comparisonIndex < practiceTextForComparison.length) {
+            let graphemeEnd = textIndex + 1;
+            while (graphemeEnd < practiceText.length && /[\u0300-\u036f]/.test(practiceText[graphemeEnd])) {
+                graphemeEnd++;
+            }
+            const grapheme = practiceText.substring(textIndex, graphemeEnd);
+            const comparisonChar = practiceTextForComparison[comparisonIndex];
+
+            const isSpace = comparisonChar === ' ';
+            const displayChar = isSpace ? '&nbsp;' : grapheme;
+            
+            let classes = [];
+            if (isSpace) {
+                classes.push('space-char');
+            }
+
+            if (comparisonIndex < typedText.length) {
+                const isCorrect = typedText[comparisonIndex] === comparisonChar;
+                if(isCorrect) {
+                    classes.push('correct');
                 } else {
-                    html += `<span class="incorrect">${originalChar}</span>`;
+                    classes.push('incorrect');
                     fullyCorrect = false;
                 }
             } else {
-                html += `<span>${originalChar}</span>`;
                 fullyCorrect = false;
             }
+            
+            html += `<span class="${classes.join(' ')}">${displayChar}</span>`;
+            
+            textIndex = graphemeEnd;
+            comparisonIndex++;
         }
         textDisplay.innerHTML = html;
 
         totalStrokes = typedText.length;
-        correctStrokes = (typedText.split('').filter((char, i) => char === practiceTextForComparison[i])).length;
+        correctStrokes = typedText.split('').filter((c, i) => c === practiceTextForComparison[i]).length;
         updateAccuracy();
 
         if (typedText.length < practiceTextForComparison.length) {
             highlightKey(practiceTextForComparison[typedText.length]);
         } else if (fullyCorrect) {
-            setTimeout(nextItem, 200); // Brief pause on success
+            setTimeout(nextItem, 200);
         } else {
-             unhighlightAllKeys(); // If incorrect at the end, just show home position
+            unhighlightAllKeys();
         }
     });
 

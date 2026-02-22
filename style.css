@@ -107,7 +107,8 @@ nav li a.active, nav li a:hover {
 #text-display {
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    letter-spacing: 2px;
+    white-space: pre-wrap; /* Allows wrapping and preserves spaces */
+    line-height: 1.5; /* Improves readability */
 }
 
 #translation-display {
@@ -208,12 +209,22 @@ nav li a.active, nav li a:hover {
 }
 
 #text-display span {
-    display: inline-block;
+    display: inline-block; /* Treat each character/grapheme as a block */
     transition: all 0.1s;
+    vertical-align: middle; /* Align characters properly */
+    padding: 0.1em; /* Add some padding for visual separation */
+}
+
+/* Give space characters a specific, consistent width */
+.space-char {
+    width: 0.5em; /* Adjust as needed */
+    background-color: transparent !important; /* Ensure spaces are always transparent */
 }
 
 #text-display .correct {
     color: #28a745;
+    background-color: #e9f7ec;
+    border-radius: 4px;
 }
 
 #text-display .incorrect {
@@ -223,4 +234,3 @@ nav li a.active, nav li a:hover {
     background-color: #f8d7da;
     border-radius: 4px;
 }
-
